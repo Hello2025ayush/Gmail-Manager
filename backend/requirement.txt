@@ -1,8 +1,13 @@
 fastapi
 pydantic-settings
 uvicorn[standard]
-beautifulsoup4
+
 
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
+
+beautifulsoup4
+sqlalchemy
+psycopg[binary]
+

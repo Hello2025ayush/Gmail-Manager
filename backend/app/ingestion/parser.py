@@ -23,7 +23,7 @@ def decode_data(data: str) -> str:
 
 def extract_content(payload):         #returns body(str), filenames(list)
 
-    mimetype = payload.get("mimeType")
+    mimetype = payload.get("mimeType", "")
     filename = payload.get("filename")
 
     ## if its an attachment

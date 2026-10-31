@@ -143,7 +143,7 @@ if __name__ == "__main__":
     setup_logging()
     gmailObject = get_gmail_api_object()
 
-    emails = get_all_message_content(gmailObject, 500)
+    emails = get_all_message_content(gmailObject, 1)
 
     print(f"\n successfully fetched emails = {len(emails)} \n")
 
