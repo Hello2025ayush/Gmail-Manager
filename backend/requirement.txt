@@ -11,3 +11,4 @@ beautifulsoup4
 sqlalchemy
 psycopg[binary]
 
+tiktoken
