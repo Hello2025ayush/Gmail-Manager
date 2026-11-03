@@ -62,6 +62,8 @@ def insert_chunks(chunks):
     )
 
     print("Stored", len(points), "chunks in Qdrant")
+    print("Inserting chunk ID:", chunks[0]["chunk_id"])
+    print("Type:", type(chunks[0]["chunk_id"]))
 
 
 # --------------------------------------------------------------- #
@@ -98,7 +100,16 @@ def search_chunks(question, top_k=5):
 
 if __name__ == "__main__":
     create_collection()
+    # from app.database.repository import get_email
+    # from app.ingestion.chunker import chunk_email
 
+    # email = get_email("email_id")
+
+    # chunks = chunk_email(email, chunk_size=200, chunk_overlap=50)
+
+    # insert_chunks(chunks)
+
+    
     question = "whats the email about Vigilance Awareness Week says"
     
     results = search_chunks(question, top_k=3)

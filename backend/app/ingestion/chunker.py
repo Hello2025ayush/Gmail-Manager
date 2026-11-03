@@ -22,7 +22,7 @@ def chunk_email(email, chunk_size, chunk_overlap):   ## a list of dictionary
             "chunk_id" : f"{email['id']}_{len(chunks)}",
             "email_id" : email['id'],
             "thread_id" : email["thread_id"],
-            "chunk_id" : len(chunks),
+            "chunk_index" : len(chunks),
             "text" : tokenizer.decode(
                 part,
                 skip_special_tokens = True,

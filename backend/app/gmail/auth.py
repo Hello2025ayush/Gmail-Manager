@@ -6,6 +6,7 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+from google.auth.exceptions import RefreshError
 
 
 from app.config import setting
@@ -27,21 +28,27 @@ def get_credentials():
     creds = None
 
     token_path = BASE_DIR / setting.GOOGLE_TOKEN_FILE
-    credenials_path = BASE_DIR / setting.GOOGLE_CREDENTIALS_FILE
+    credentials_path = BASE_DIR / setting.GOOGLE_CREDENTIALS_FILE
 
     if token_path.exists():
         creds = Credentials.from_authorized_user_file(str(token_path), SCOPES)
 
+
     if creds and creds.valid:
         return creds
 
-    if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
 
-    else:
-        # login again
-        flow = InstalledAppFlow.from_client_secrets_file(str(credenials_path), SCOPES)
-        creds = flow.run_local_server(port = 0)
+    if creds and creds.expired and creds.refresh_token:
+         try:
+            creds.refresh(Request())
+         except RefreshError:
+            creds = None
+
+
+    if not creds or not creds.valid:
+        ## login agaiin
+        flow = InstalledAppFlow.from_client_secrets_file(str(credentials_path), SCOPES)
+        creds = flow.run_local_server(port=0)
 
 
     token_path.write_text(creds.to_json(), encoding="utf-8")
