@@ -1,13 +1,16 @@
 import json
-import tiktoken
+from app.ingestion.embedder import model
 
-tokenizer = tiktoken.get_encoding("cl100k_base")
+tokenizer = model.tokenizer
 
 
 def chunk_email(email, chunk_size, chunk_overlap):   ## a list of dictionary
+    
+    max_tokens = model.max_seq_length - tokenizer.num_special_tokens_to_add(pair = False)
+    
     text = email["body"]
 
-    tokens = tokenizer.encode(text)
+    tokens = tokenizer.encode(text, add_special_tokens = False)
 
     chunks = []
 
@@ -20,7 +23,11 @@ def chunk_email(email, chunk_size, chunk_overlap):   ## a list of dictionary
             "email_id" : email['id'],
             "thread_id" : email["thread_id"],
             "chunk_id" : len(chunks),
-            "text" : tokenizer.decode(part)           # list
+            "text" : tokenizer.decode(
+                part,
+                skip_special_tokens = True,
+                clean_up_tokenization_spaces = True
+                )           # list
         }
 
         chunks.append(chunk)

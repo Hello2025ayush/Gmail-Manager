@@ -12,3 +12,6 @@ sqlalchemy
 psycopg[binary]
 
 tiktoken
+sentence-transformers
+
+qdrant-client
