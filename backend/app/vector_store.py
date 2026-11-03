@@ -87,7 +87,7 @@ def search_chunks(question, top_k=5):
 
         chunks.append(chunk)
 
-    print(json.dumps(chunk, indent = 4))
+    # print(json.dumps(chunk, indent = 4))
 
     return chunks
 
