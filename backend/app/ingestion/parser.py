@@ -102,7 +102,7 @@ def parse_email(message):
 
     final = {
         "id"                : message.get("id", ""),
-        "threadId"          : message.get("threadId", ""),
+        "thread_id"         : message.get("threadId", ""),
         "from"              : header.get("from", ""),
         "to"                : header.get("to", ""),
         "cc"                : header.get("cc", ""),

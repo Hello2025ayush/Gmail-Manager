@@ -1,8 +1,13 @@
 from sentence_transformers import SentenceTransformer
 
-model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+MODEL_NAME = "BAAI/bge-small-en-v1.5"
+QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
 
-def generate_embeddings(texts):
+model = SentenceTransformer(MODEL_NAME)
+
+def generate_embeddings(texts, is_query=False):
+    if is_query:
+        texts = [QUERY_PREFIX + text for text in texts]
     
     vectors = model.encode(texts, normalize_embeddings=True)
 

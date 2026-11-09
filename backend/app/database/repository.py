@@ -24,7 +24,7 @@ def save_email(email):
 
         
         query = insert(threads).values(
-            id=email["threadId"]
+            id=email["thread_id"]
         ).on_conflict_do_nothing()
 
         conn.execute(query)
@@ -32,7 +32,7 @@ def save_email(email):
         
         data = {
             "id": email["id"],
-            "thread_id": email["threadId"],
+            "thread_id": email["thread_id"],
             "sender": email["from"],
             "recipient": email["to"],
             "cc": email["cc"],
@@ -63,6 +63,19 @@ def get_email(email_id):
         return None
 
     return dict(result)
+
+
+def get_emails(email_ids):
+    if not email_ids:
+        return []
+
+    query = select(emails).where(emails.c.id.in_(email_ids))
+
+    with engine.connect() as conn:
+        results = conn.execute(query).mappings().all()
+
+    by_id = {email["id"]: dict(email) for email in results}
+    return [by_id[email_id] for email_id in email_ids if email_id in by_id]
 
 
 

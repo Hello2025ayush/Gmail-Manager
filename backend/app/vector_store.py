@@ -13,7 +13,7 @@ client = QdrantClient(
     path=str(BASE_DIR / "qdrant_data")
 )
 
-COLLECTION_NAME = "email_chunks"
+COLLECTION_NAME = "email_chunks_bge_v1"
 
 
 def create_collection():
@@ -41,7 +41,11 @@ def insert_chunks(chunks):
 
     texts = []
     for chunk in chunks:
-        texts.append(chunk["text"])
+        texts.append(
+            f"Subject: {chunk.get('subject', '')}\n"
+            f"From: {chunk.get('sender', '')}\n"
+            f"{chunk['text']}"
+        )
 
     vectors = generate_embeddings(texts)
 
@@ -70,7 +74,7 @@ def insert_chunks(chunks):
 def search_chunks(question, top_k=5):
 
     
-    vector = generate_embeddings([question])[0]
+    vector = generate_embeddings([question], is_query=True)[0]
 
     results = client.query_points(
         collection_name=COLLECTION_NAME,
@@ -92,6 +96,27 @@ def search_chunks(question, top_k=5):
     # print(json.dumps(chunk, indent = 4))
 
     return chunks
+
+
+def email_has_chunks(email_id):
+    if not client.collection_exists(COLLECTION_NAME):
+        return False
+
+    points, _ = client.scroll(
+        collection_name=COLLECTION_NAME,
+        scroll_filter=models.Filter(
+            must=[
+                models.FieldCondition(
+                    key="email_id",
+                    match=models.MatchValue(value=email_id)
+                )
+            ]
+        ),
+        limit=1,
+        with_payload=False
+    )
+
+    return bool(points)
 
 
 
@@ -127,4 +152,3 @@ if __name__ == "__main__":
 
 
     client.close()
-    

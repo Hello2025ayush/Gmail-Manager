@@ -13,6 +13,7 @@ psycopg[binary]
 
 tiktoken
 sentence-transformers
+rank-bm25
 
 qdrant-client
 ollama

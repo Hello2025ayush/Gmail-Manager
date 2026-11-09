@@ -5,9 +5,10 @@ class Settings(BaseSettings):
     DEBUG: bool = False
     LOG_LEVEL: str = "INFO"
     DATABASE_URL: str = ""
+    OLLAMA_MODEL: str = "qwen2.5:1.5b"
 
-    GOOGLE_CREDENTIALS_FILE: str
-    GOOGLE_TOKEN_FILE: str
+    GOOGLE_CREDENTIALS_FILE: str = "credentials.json"
+    GOOGLE_TOKEN_FILE: str = "token.json"
 
     model_config = SettingsConfigDict(
         env_file = ("../.env", ".env"),
@@ -17,4 +18,4 @@ class Settings(BaseSettings):
 
 setting = Settings()
 
-    
+

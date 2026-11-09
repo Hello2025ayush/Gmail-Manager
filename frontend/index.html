@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fa">
+  <title>Gmail Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Gmail Manager home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none"><path d="M5.5 23.5V9.2c0-1.1 1.25-1.72 2.12-1.05L16 14l8.38-5.85c.87-.67 2.12-.05 2.12 1.05v14.3" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 12.3v11.2M26.5 12.3v11.2" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+        </span>
+        <span class="brand-name">mailmind</span>
+      </a>
+      <div class="topbar-right">
+        <span id="connection-state" class="connection-state"><span class="state-dot"></span><span id="connection-label">Not connected</span></span>
+        <button id="connect" class="button button-outline" type="button">Connect Gmail</button>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <div class="workspace-heading">
+        <div>
+          <p class="eyebrow">YOUR PERSONAL EMAIL ASSISTANT</p>
+          <h1>Find the email<br class="mobile-break"> you’re looking for.</h1>
+          <p class="subheading">Ask a question. Get an answer with sources from your inbox.</p>
+        </div>
+      </div>
+
+      <section class="sync-panel" aria-label="Email sync">
+        <div class="sync-topline">
+          <div class="sync-copy">
+            <span class="sync-icon" aria-hidden="true">
+              <svg viewBox="0 0 20 20" fill="none"><path d="M16.6 7.5A6.8 6.8 0 0 0 4.2 5.3L3 6.6m0 0V3.8m0 2.8h2.8M3.4 12.5a6.8 6.8 0 0 0 12.4 2.2l1.2-1.3m0 0v2.8m0-2.8h-2.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <div><strong>Inbox library</strong><span id="sync-label">Sync recent emails to get started</span></div>
+          </div>
+          <div class="sync-controls">
+            <label for="limit">Latest</label>
+            <input id="limit" type="number" min="1" max="500" value="100" aria-label="Number of latest emails to sync">
+            <span class="email-unit">emails</span>
+            <button id="sync" class="button button-primary" type="button">Sync inbox <span aria-hidden="true">↗</span></button>
+          </div>
+        </div>
+        <div id="sync-progress" class="sync-progress" hidden aria-live="polite">
+          <div class="progress-copy"><span id="sync-progress-label">Connecting to Gmail…</span><span id="sync-progress-count"></span></div>
+          <div class="progress-track"><span id="sync-progress-bar"></span></div>
+        </div>
+      </section>
+
+      <section class="chat-card" aria-label="Email chat">
+        <div id="messages" class="messages" aria-live="polite">
+          <div class="welcome" id="welcome">
+            <span class="welcome-mark" aria-hidden="true">✳</span>
+            <h2>What would you like to know?</h2>
+            <p>Try a question about a person, a plan, or something you were sent.</p>
+            <div class="suggestions">
+              <button class="suggestion" type="button">What should I follow up on?</button>
+              <button class="suggestion" type="button">Find recent travel details</button>
+              <button class="suggestion" type="button">What did I agree to?</button>
+            </div>
+          </div>
+        </div>
+        <form id="chat-form" class="chat-form">
+          <input id="question" type="text" placeholder="Ask anything about your email…" autocomplete="off" required>
+          <button id="send" class="send-button" type="submit" aria-label="Send question">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3.5 10h13m0 0-5.2-5.2M16.5 10l-5.2 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
+        <div class="chat-foot"><span id="status" aria-live="polite">Your email stays on your device.</span><span>Answers include email sources</span></div>
+      </section>
+      <footer class="page-footer">Private by design <span>·</span> Powered by your local AI</footer>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
