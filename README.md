@@ -14,6 +14,25 @@ Gmail Manager lets you sync recent Gmail messages and ask questions about them. 
 - Finds relevant email chunks using keyword and semantic search, then reranks them.
 - Uses a local Ollama model to answer questions and returns Gmail citations.
 
+## Architecture
+
+The frontend talks to the FastAPI backend. The backend connects to Gmail during sync, stores full messages in PostgreSQL, and stores searchable chunks in Qdrant. For questions, it retrieves and reranks chunks, loads the related email context, and asks Ollama to draft an answer.
+
+```mermaid
+flowchart LR
+    UI[Web frontend] <-->|HTTP| API[FastAPI backend]
+    API <-->|OAuth and messages| Gmail[Gmail API]
+    API --> Ingest[Parse, chunk, embed]
+    Ingest --> PG[(PostgreSQL<br/>full emails)]
+    Ingest --> Q[(Qdrant<br/>chunks and vectors)]
+    API --> Search[Hybrid retrieval<br/>BM25, semantic search, reranker]
+    Q --> Search
+    Search --> Context[Build email context]
+    Context <-->|Load full emails| PG
+    Context --> LLM[Ollama]
+    LLM --> API
+```
+
 ## How a question is answered
 
 ```mermaid
