@@ -9,3 +9,4 @@ __pycache__/
 backend/app/credentials.json
 backend/app/token.json
 backend/qdrant_data/
+test/
